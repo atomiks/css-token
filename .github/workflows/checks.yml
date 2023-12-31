@@ -1,0 +1,44 @@
+name: Checks
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  NODE_OPTIONS: "--no-warnings"
+  NEXT_TELEMETRY_DISABLED: "1"
+  ACTIONS_RUNNER_DEBUG: true
+
+jobs:
+  checks:
+    name: Lint/Typecheck/Build/Test
+    runs-on: ["ubuntu-latest"]
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "🐰 Setup Bun"
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+
+      - name: "Install Dependencies"
+        run: bun install --frozen-lockfile && cd website && bun install
+
+      - name: "Typecheck"
+        run: bun run typecheck
+
+      - name: "Build"
+        run: bun run build
+
+      - name: "Lint"
+        run: bun run lint
+
+      - name: "Test"
+        run: bun test

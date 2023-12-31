@@ -1,0 +1,749 @@
+import { Usage } from "../components/usage";
+import { Colors } from "../components/colors";
+import {
+  ShadowType,
+  ShadowColor,
+  ShadowElevation,
+} from "../components/shadows";
+import { Springs } from "../components/springs";
+import { Demo } from "../components/demo";
+import { Length } from "../components/length";
+import { Rounded } from "../components/rounded";
+import { TextGradient } from "../components/text-gradient";
+import { css, token } from "../css";
+import logoImage from "../assets/logo.webp";
+
+<img
+  alt="css-token"
+  src={logoImage.src}
+  draggable={false}
+  style={{
+    width: token("length-28"),
+    height: token("length-28"),
+    margin: `${token("length-12")} auto`,
+    marginBlockStart: token("length-12"),
+    userSelect: "none",
+  }}
+/>
+
+[CSS Token](https://github.com/atomiks/css-token) provides a set of design tokens
+and utilities that enable a standardized system to specify colors, sizes, shadows,
+and other design-related values in your app.
+
+- **Minimal**: No build step, easily use with inline styles via
+  [CSS Hooks](https://css-hooks.com)<sup>1</sup>.
+- **Flexible**: Static and dynamic tokens for custom use cases.
+- **SSR-safe**: Tokens work on the server and client.
+- **Strongly typed**: Tokens can be narrowly typed to prevent invalid values.
+
+> <sup>1</sup>[CSS Hooks](https://css-hooks.com) is a refreshingly light styling
+> solution that lets you to "hook" into CSS features like `:hover` and media
+> queries _directly_ from the `style` prop. With minimal overhead, you enjoy the
+> benefits of local reasoning, reusing your existing knowledge of standard CSS,
+> strong typing, while being SSR-safe.
+
+---
+
+## Table of Contents
+
+- [Install](#install)
+- [Usage](#usage)
+  - [Autocomplete](#autocomplete)
+    - [All Static Tokens](#all-static-tokens)
+    - [Static Tokens Subset](#static-tokens-subset)
+    - [Example](#example)
+- [Tokens](#tokens)
+- [Color](#color)
+  - [Static Colors](#static-colors)
+    - [HD Colors](#hd-colors)
+  - [Dynamic Colors](#dynamic-colors)
+- [Shadow](#shadow)
+  - [Shadow Presets](#shadow-presets)
+  - [Shadow Elevation](#shadow-elevation)
+  - [Dynamic Shadows](#dynamic-shadows)
+- [Text](#text)
+  - [Family](#family)
+  - [Size](#size)
+  - [Weight](#weight)
+  - [Tracking](#tracking)
+  - [Leading](#leading)
+- [Length](#length)
+- [Rounded](#rounded)
+- [Spring](#spring)
+- [Layer (z-index)](#layer-z-index)
+- [Text Gradient](#text-gradient)
+- [Prose](#prose)
+- [Globals](#globals)
+
+---
+
+## Install
+
+```bash
+npm i css-token
+```
+
+---
+
+## Usage
+
+To get started, import the reset and tokens in a `globals.css` (or equivalent)
+file. The reset ensures a consistent baseline to start from with better
+defaults.
+
+```css
+@import "css-token/reset.css";
+@import "css-token/all.css";
+```
+
+Then, use the CSS variables in your components:
+
+```js {1,8-11}
+import "./globals.css";
+
+function App() {
+  return (
+    <div
+      style={{
+        display: "inline-block",
+        backgroundColor: "var(--lime-2)",
+        color: "var(--lime-10)",
+        borderRadius: "var(--rounded-md)",
+        padding: "var(--length-10)",
+      }}
+    >
+      Hello world
+    </div>
+  );
+}
+```
+
+---
+
+## Tokens
+
+Tokens have a static and dynamic variant, both of which are SSR-compatible.
+
+- **Static tokens** are imported in your `globals.css` file and available as CSS
+  variables -- they are not tree-shakeable, but have zero runtime cost.
+- **Dynamic tokens** are computed at runtime, and whose values are therefore
+  tree-shakeable, but have a runtime cost (on-demand calculations).
+
+### Autocomplete
+
+For autocomplete and typesafety of static tokens, `createToken` generates a
+token function based on the tokens you imported in your globals CSS file.
+
+#### All Static Tokens
+
+This is the simplest way to get started:
+
+```css {2}
+@import "css-token/reset.css";
+@import "css-token/all.css";
+```
+
+```js {3}#ok
+import { createToken } from "css-token";
+const token = createToken();
+token("rounded-md"); // ok, all tokens available
+```
+
+All tokens weigh ~8kB gzipped combined, but you can import them separately to
+minimize size, seen below.
+
+#### Static Tokens Subset
+
+Since there's no build step, there's no "just in time" on-demand static
+compilation of tokens. To import a subset of tokens to minimize size, you can
+`@import` them each separately:
+
+```css /color/ /shadow/
+@import "css-token/reset.css";
+@import "css-token/color.css";
+@import "css-token/shadow.css";
+```
+
+```js /color/ /shadow/ /rounded-md/#error {3}#error
+import { createToken } from "css-token";
+const token = createToken(["color", "shadow"]);
+token("rounded-md"); // not allowed
+```
+
+#### Example
+
+```js /token/2,4-10
+import { createToken } from "css-token";
+
+const token = createToken(); // all tokens typed
+
+function App() {
+  return (
+    <div
+      style={{
+        display: "inline-block",
+        backgroundColor: token("blue-4"),
+        color: token("blue-14"),
+        borderRadius: token("rounded-md"),
+        padding: token("length-10"),
+      }}
+    >
+      Hello World
+    </div>
+  );
+}
+```
+
+The above produces:
+
+<Usage />
+
+---
+
+## Color
+
+```css
+@import "css-token/color.css";
+```
+
+A color scale using `oklch` for HD colors, converted to `rgb` for SD colors.
+
+<Colors />
+
+To minimize size, prefer importing only the colors you need:
+
+```css
+@import "css-token/mauve.css";
+@import "css-token/red.css";
+@import "css-token/yellow.css";
+@import "css-token/green.css";
+@import "css-token/blue.css";
+@import "css-token/purple.css";
+```
+
+```js
+const token = createToken([
+  "mauve",
+  "red",
+  "yellow",
+  "green",
+  "blue",
+  "purple",
+]);
+```
+
+### Static Colors
+
+Available as static tokens from the global CSS file:
+
+```js
+<div
+  style={{
+    backgroundColor: token("red-2"), // var(--red-2)
+    color: token("red-10"), // var(--red-10)
+  }}
+/>
+```
+
+#### HD Colors
+
+```css
+@import "css-token/color-p3.css";
+
+/* or, import separately */
+@import "css-token/red-p3.css";
+@import "css-token/yellow-p3.css";
+```
+
+Default colors are within sRGB. To get a HD color within the p3 color space,
+prepend `p3_{:.string}`:
+
+```js
+token("p3_red-10");
+```
+
+With a fallback using CSS Hooks:
+
+```js {2}
+const [hooks, css] = createHooks({
+  "&:p3": "@media (color-gamut: p3)",
+});
+```
+
+```js {5-8}
+<div
+  style={css({
+    backgroundColor: token("red-2"),
+    color: token("red-10"),
+    "&:p3": {
+      backgroundColor: token("red-2-p3"),
+      color: token("red-10-p3"),
+    },
+  })}
+/>
+```
+
+### Dynamic Colors
+
+The `color(){:js}` token function lets you select a color on-demand, which is
+useful to adjust the opacity and vibrance at will:
+
+```js
+import { color } from "css-token";
+
+color("sky-8"); // default
+color("sky-8", { alpha: 0.5 }); // 50% opacity
+color("sky-8", { vibrance: 0.5 }); // 50% chroma
+```
+
+It's recommended you extract dynamic tokens outside of components, so they're
+only calculated once:
+
+```js
+export const lime10_50 = color("lime-10", { alpha: 0.5 });
+```
+
+---
+
+## Shadow
+
+```css
+@import "css-token/shadow.css";
+```
+
+Shadows are defined by their preset, elevation, color, and strength.
+
+### Shadow Presets
+
+Shadows presets are pre-defined shadows available as CSS variables:
+
+<ShadowType />
+
+```js
+<div
+  style={{
+    boxShadow: token("shadow"),
+  }}
+/>
+```
+
+```js
+token("shadow"); // default
+token("shadow-sharp");
+token("shadow-dreamy");
+token("shadow-long");
+```
+
+### Shadow Elevation
+
+Shadows can be elevated:
+
+<ShadowElevation />
+
+```js
+<div
+  style={{
+    boxShadow: token("shadow-4"),
+  }}
+/>
+```
+
+```js
+token("shadow-sharp-3");
+token("shadow-dreamy-2");
+token("shadow-long-4");
+```
+
+### Dynamic Shadows
+
+Colored shadows and shadows with a custom intensity can be generated on-demand
+using the `shadow(){:js}` token:
+
+<ShadowColor />
+
+```js {6-8}
+import { shadow } from "css-token";
+
+const customLimeShadow = shadow({
+  preset: "long",
+  elevation: 2,
+  // on-demand only options
+  color: "lime-10",
+  intensity: 1.5,
+});
+```
+
+```js
+<div
+  style={{
+    boxShadow: customLimeShadow,
+  }}
+/>
+```
+
+---
+
+## Text
+
+```css
+@import "css-token/text.css";
+```
+
+Text is defined by its family, size, weight, tracking, and leading.
+
+```js
+<div
+  style={{
+    fontFamily: token("font-mono"),
+    fontSize: token("font-size-2xl"),
+    fontWeight: token("font-weight-thin"),
+    letterSpacing: token("tracking-tight"),
+    lineHeight: token("leading-tight"),
+  }}
+>
+  Text token example
+</div>
+```
+
+<Demo trueDark>
+  <div
+    style={css({
+      fontFamily: token("font-mono"),
+      fontSize: token("font-size-2xl"),
+      fontWeight: token("font-weight-thin"),
+      letterSpacing: token("tracking-tight"),
+      lineHeight: token("leading-tight"),
+    })}
+  >
+    <span>Text token example</span>
+  </div>
+</Demo>
+
+### Family
+
+Three system font families are available:
+
+```js
+<div
+  style={{
+    // mono, sans, serif
+    fontFamily: token("font-mono"),
+  }}
+/>
+```
+
+### Size
+
+Scale `1` through `16` or `5xs` through `5xl`.
+
+```js
+<div
+  style={{
+    // 1-16
+    fontSize: token("font-size-10"),
+    // 5xs, 4xs, 3xs, 2xs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl
+    fontSize: token("font-size-2xl"),
+  }}
+/>
+```
+
+The `fontSize(){:js}` token function defaults to `rem`, but can be overridden:
+
+```js
+import { fontSize } from "css-token";
+```
+
+```js
+<div
+  style={{
+    fontSize: fontSize(10), // rem
+    fontSize: fontSize(7, "em"),
+    fontSize: fontSize(4, "px"),
+  }}
+/>
+```
+
+#### Unitless scale
+
+If you need a unitless scale inside a CSS file to convert to `em`:
+
+```css
+@import "css-token/font-size-scale.css";
+
+div {
+  font-size: calc(var(--font-size-scale-10) * 1em);
+}
+```
+
+### Weight
+
+Scale `1` through `9` or `hairline` through `black`.
+
+```js
+<div
+  style={{
+    // 1-9
+    fontWeight: token("font-weight-5"),
+    // hairline, thin, light, normal, medium, semibold,
+    // bold, extrabold, black
+    fontSize: token("font-weight-medium"),
+  }}
+/>
+```
+
+### Tracking
+
+Refers to the letter spacing. Scale `1` through `9` or `tight` through `loose`.
+
+```js
+<div
+  style={{
+    // 1-9
+    fontWeight: token("tracking-5"),
+    // tight, snug, normal, relaxed, loose
+    fontWeight: token("tracking-loose"),
+  }}
+/>
+```
+
+### Leading
+
+Refers to the line height. Scale `1` through `9` or `tight` through `loose`.
+
+```js
+<div
+  style={{
+    // 1-9
+    fontWeight: token("leading-5"),
+    // tight, snug, normal, relaxed, loose
+    fontWeight: token("leading-loose"),
+  }}
+/>
+```
+
+---
+
+## Length
+
+Scale from `1` through `32`.
+
+```js
+<div
+  style={{
+    width: token("length-10"),
+  }}
+/>
+```
+
+The `length(){:js}` token function allows you to specify a unit:
+
+```js
+import { length } from "css-token";
+```
+
+```js
+<div
+  style={{
+    width: length(10), // rem
+    height: length(7, "em"),
+    padding: length(4, "px"),
+  }}
+/>
+```
+
+#### Unitless scale
+
+If you need a unitless scale inside a CSS file to convert to `em`:
+
+```css
+@import "css-token/length-scale.css";
+
+div {
+  width: calc(var(--length-scale-10) * 1em);
+}
+```
+
+<Length />
+
+---
+
+## Rounded
+
+Specifies corner rounding.
+
+```css
+@import "css-token/rounded.css";
+```
+
+```js
+<div
+  style={{
+    // xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, full
+    borderRadius: token("rounded-md"),
+  }}
+/>
+```
+
+<Rounded />
+
+---
+
+## Spring
+
+```css
+@import "css-token/spring.css";
+```
+
+Motion is defined by springs.
+
+```js
+<div
+  style={{
+    // Default:
+    transition: `transform ${token("spring")}`,
+
+    // Other presets:
+    transition: `transform ${token("spring-wobbly")}`,
+    transition: `transform ${token("spring-wobbly-2")}`,
+    transition: `transform ${token("spring-stiff")}`,
+    transition: `transform ${token("spring-stiff-2")}`,
+  }}
+/>
+```
+
+<Springs />
+
+### Dynamic Springs
+
+The `spring(){:js}` token function lets you select a spring on-demand, which is
+useful to adjust the stiffness and damping at will:
+
+```js
+import { spring } from "css-token";
+
+spring(); // default
+spring({ stiffness: 100, damping: 20 });
+```
+
+---
+
+## Layer (z-index)
+
+Specifies the stacking order of layers.
+
+```css
+@import "css-token/layer.css";
+```
+
+```js
+<div
+  style={{
+    // 1-5 + 'max'
+    zIndex: token("layer-1"),
+  }}
+/>
+```
+
+There's also a `layer(){:js}` token function:
+
+```js
+import { layer } from "css-token";
+
+layer(1);
+layer("max");
+```
+
+---
+
+## Text Gradient
+
+Lush gradients in `oklch` color space (by default) for text.
+
+```js
+import { textGradient } from "css-token";
+
+const redToBlueTextGradient = textGradient({
+  stops: [token("red-5"), token("blue-8")],
+  // options:
+  colorSpace: "oklch", // e.g. "srgb"
+  direction: "90deg", // e.g. "to bottom"
+});
+```
+
+```js
+<div style={redToBlueTextGradient}>Hello World</div>
+```
+
+<TextGradient />
+
+---
+
+## Prose
+
+```css
+@import "css-token/prose.css";
+```
+
+> Note: This depends on `text.css` and `length.css`. Ensure they've been imported.
+
+To style free-form prose elements containing arbitrary HTML (e.g. Markdown), you
+can use the `prose{:.string}` class to apply styles to the appropriate elements:
+
+```js /className="prose"/
+<article className="prose">
+  {/* Generated from markdown */}
+  <h1>Heading</h1>
+  <p>Paragraph</p>
+</article>
+```
+
+---
+
+## Globals
+
+While inline styles should be preferred wherever possible with CSS Hooks, if you
+need to define global styles, use the `global.css` stylesheet with the CSS
+variables.
+
+For example, pseudo elements, descendant selectors, or keyframes require global
+styles:
+
+```css {4-5}
+.container span::before {
+  content: "";
+  display: block;
+  width: var(--length-8);
+  height: var(--length-8);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+```
+
+If you need runtime global styles because a runtime token is a dependency, you
+can use the `global` function. Global styles are defined by their selector to
+scope the styles, and a style object.
+
+```js
+import { global } from "css-token";
+import { limeShadow } from "./tokens";
+
+const containerSelector = ":root";
+const styles = {
+  "code [data-line]": { boxShadow: limeShadow },
+};
+
+const rawCss = global(containerSelector, styles);
+```
+
+```js
+<style dangerouslySetInnerHTML={{ __html: rawCss }} />
+```
+
+---

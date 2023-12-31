@@ -1,0 +1,112 @@
+.prose :where(h1, h2, h3, h4, h5, h6) {
+  font-weight: var(--font-weight-6);
+}
+
+.prose :where(h1, h2, h3) {
+  line-height: var(--leading-snug);
+}
+
+.prose :where(h1) {
+  font-size: calc(var(--font-size-scale-13) * 1em);
+  margin-block-start: calc(var(--length-scale-12) * 1em);
+  margin-block-end: calc(var(--length-scale-8) * 1em);
+}
+
+.prose :where(h2) {
+  font-size: calc(var(--font-size-scale-11) * 1em);
+  margin-block-start: calc(var(--length-scale-12) * 1em);
+  margin-block-end: calc(var(--length-scale-8) * 1em);
+}
+
+.prose :where(h3) {
+  font-size: calc(var(--font-size-scale-9) * 1em);
+  margin-block-start: calc(var(--length-scale-12) * 1em);
+  margin-block-end: calc(var(--length-scale-8) * 1em);
+}
+
+.prose :where(h4) {
+  font-size: calc(var(--font-size-scale-8) * 1em);
+  margin-block-start: calc(var(--length-scale-12) * 1em);
+  margin-block-end: calc(var(--length-scale-8) * 1em);
+}
+
+.prose :where(h5) {
+  font-size: calc(var(--font-size-scale-7) * 1em);
+  margin-block-start: calc(var(--length-scale-12) * 1em);
+  margin-block-end: calc(var(--length-scale-8) * 1em);
+}
+
+.prose :where(h6) {
+  font-size: calc(var(--font-size-scale-6) * 1em);
+  margin-block-start: calc(var(--length-scale-12) * 1em);
+  margin-block-end: calc(var(--length-scale-8) * 1em);
+}
+
+.prose :where(p, ul, ol) {
+  line-height: var(--leading-relaxed);
+  margin-block-end: calc(var(--length-scale-10) * 1em);
+}
+
+.prose :where(ul, ol) {
+  line-height: var(--leading-relaxed);
+  padding-inline-start: calc(var(--length-scale-8) * 1em);
+  list-style-type: disc;
+}
+
+.prose :where(ul ul, ol ol) {
+  margin: 0;
+}
+
+.prose :where(li) {
+  margin-block-end: calc(var(--length-scale-2) * 1em);
+}
+
+.prose :where(sup, sub) {
+  position: relative;
+  vertical-align: baseline;
+  font-size: calc(var(--font-size-scale-2xs) * 1em);
+}
+
+.prose :where(sup) {
+  top: calc(var(--length-scale-4) * -1em);
+}
+
+.prose :where(sub) {
+  top: calc(var(--length-scale-2) * 1em);
+}
+
+.prose :where(img, picture, video, canvas, svg) {
+  margin-block-end: calc(var(--length-scale-12) * 1em);
+}
+
+.prose :where(figure img, figure picture) {
+  margin-block-end: calc(var(--length-scale-6) * 1em);
+}
+
+.prose :where(figcaption) {
+  text-align: center;
+  font-size: calc(var(--font-size-scale-sm) * 1em);
+  margin-block-end: calc(var(--length-scale-12) * 1em);
+}
+
+.prose :where(hr) {
+  margin-block-start: calc(var(--length-scale-16) * 1em);
+  margin-block-end: calc(var(--length-scale-15) * 1em);
+}
+
+.prose :where(code) {
+  font-size: calc(var(--font-size-scale-sm) * 1em);
+}
+
+.prose :where(pre) {
+  margin-block-start: calc(var(--length-scale-10) * 1em);
+  margin-block-end: calc(var(--length-scale-12) * 1em);
+  line-height: var(--leading-loose);
+}
+
+.prose :where(blockquote) {
+  border-inline-start: 2px solid;
+  padding-inline-start: calc(var(--length-scale-8) * 1em);
+  margin-block-end: calc(var(--length-scale-12) * 1em);
+  line-height: var(--leading-relaxed);
+}
