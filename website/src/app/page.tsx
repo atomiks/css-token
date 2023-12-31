@@ -5,6 +5,7 @@ import {css, global, shadow, token} from '../css';
 import Index from './index.mdx';
 import {MDXProvider} from '@mdx-js/react';
 import {useMDXComponents} from '../mdx-components';
+import {useEffect, useState} from 'react';
 
 const prose = global('.prose', {
 	'span[data-rehype-pretty-code-figure] code': css({
@@ -29,6 +30,12 @@ const prose = global('.prose', {
 
 function App() {
 	const components = useMDXComponents();
+	const [year, setYear] = useState<number | null>(null);
+
+	useEffect(() => {
+		setYear(new Date().getFullYear());
+	}, []);
+
 	return (
 		<MDXProvider components={components}>
 			{/* biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> */}
@@ -60,7 +67,7 @@ function App() {
 						},
 					})}
 				>
-					© {new Date().getFullYear()} • MIT License
+					© {year && `${year} •`} MIT License
 				</footer>
 			</article>
 		</MDXProvider>
