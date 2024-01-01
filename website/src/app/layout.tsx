@@ -6,7 +6,20 @@ import {Inter} from 'next/font/google';
 
 export const metadata: Metadata = {
 	title: 'CSS Token',
-	description: 'Design tokens and utilities for CSS & JS',
+	description: 'Design Tokens and Utilities for CSS & JS',
+	openGraph: {
+		title: 'CSS Token',
+		description: 'Design Tokens and Utilities for CSS & JS',
+		url: 'https://css-token.netlify.app',
+		type: 'website',
+		images: [
+			{
+				url: 'https://css-token.netlify.app/og-image.jpg',
+				width: 1200,
+				height: 735,
+			},
+		],
+	},
 };
 
 const inter = Inter({

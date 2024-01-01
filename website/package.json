@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@css-hooks/react": "^1.6.0",
-    "css-token": "latest",
+    "css-token": "0.0.2",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18"
