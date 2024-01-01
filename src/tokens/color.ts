@@ -81,13 +81,27 @@ export function getChannels(hueShade: Color, {vibrance = 1, p3 = false} = {}) {
 			else if (shade < 5) h += 15;
 			else if (shade === 5) h += 5;
 		}
+		if (hue === 'pink') {
+			if (shade < 6) h += 5;
+		}
 		if (shade === 1) return 10;
-		if (shade === 2) return 20;
+		if (shade === 2) {
+			if (hue === 'cyan') return 17.5;
+			return 20;
+		}
 		if (shade === 3) {
-			if (hue === 'cyan' || hue === 'sky' || hue === 'mint') return 27.5;
+			if (hue === 'cyan') return 26;
+			if (hue === 'sky' || hue === 'mint') return 27.5;
+			if (hue === 'teal') return 30;
 			return 35;
 		}
-		if (shade === 4) return 37.5;
+		if (shade === 4) {
+			if (hue === 'cyan') return 32.5;
+			return 37.5;
+		}
+		if (shade === 6) {
+			if (hue === 'sky') return 37.5;
+		}
 		if (shade >= 5 && shade <= 8) return 42.5;
 		return -5 * (shade - 17);
 	})();
