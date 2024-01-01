@@ -15,6 +15,7 @@ export const NONELESS_SCALE = [
 export type SpringScale = (typeof NONELESS_SCALE)[number];
 
 // https://linear-easing-generator.netlify.app/
+// https://github.com/jakearchibald/linear-easing-generator/blob/b263bdbfda190aa2b0c4de622c621f121e2d924c/LICENSE
 function createSpring({
 	mass,
 	stiffness,
