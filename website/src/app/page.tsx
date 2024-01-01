@@ -45,14 +45,14 @@ function App() {
 				style={css({
 					maxWidth: '45rem',
 					margin: '0 auto',
-					paddingInline: token('length-4'),
+					paddingInline: token('length-8'),
 					fontSize: token('font-size-md'),
 					'&:md': {
 						fontSize: token('font-size-7'),
 						paddingInline: token('length-12'),
 					},
 					'&:lg': {
-						padding: 0,
+						paddingInline: 0,
 					},
 				})}
 			>

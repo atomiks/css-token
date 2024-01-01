@@ -19,7 +19,7 @@ import logoImage from "../assets/logo.webp";
   draggable={false}
   style={{
     width: token("length-28"),
-    height: token("length-28"),
+    aspectRatio: "1",
     margin: `${token("length-12")} auto`,
     marginBlockStart: token("length-12"),
     userSelect: "none",
@@ -172,6 +172,8 @@ token("rounded-md"); // not allowed
 
 #### Example
 
+[Play on CodeSandbox](https://codesandbox.io/p/sandbox/css-token-demo-hfc9l2?file=%2Fsrc%2FApp.tsx%3A5%2C1).
+
 ```js /token/2,4-10
 import { createToken } from "css-token";
 
@@ -276,8 +278,8 @@ const [hooks, css] = createHooks({
     backgroundColor: token("red-2"),
     color: token("red-10"),
     "&:p3": {
-      backgroundColor: token("red-2-p3"),
-      color: token("red-10-p3"),
+      backgroundColor: token("p3_red-2"),
+      color: token("p3_red-10"),
     },
   })}
 />
