@@ -100,7 +100,7 @@ export function getChannels(hueShade: Color, {vibrance = 1, p3 = false} = {}) {
 			return 37.5;
 		}
 		if (shade === 6) {
-			if (hue === 'sky') return 37.5;
+			if (hue === 'sky') return 41;
 		}
 		if (shade >= 5 && shade <= 8) return 42.5;
 		return -5 * (shade - 17);
