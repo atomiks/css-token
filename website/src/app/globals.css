@@ -88,7 +88,7 @@
 }
 
 .prose [data-highlighted-line] {
-  background: var(--indigo-1);
+  background: var(--blue-1);
 }
 
 .prose [data-highlighted-line-id="ok"] {
@@ -150,7 +150,7 @@
 
   .prose [data-chars-id="error"] {
     background: none;
-    box-shadow: 0 0 0 calc(var(--length-scale-2) * 1em) var(--crimson-13);
+    box-shadow: 0 0 0 calc(var(--length-scale-2) * 1em) var(--red-13);
   }
 
   .prose [data-highlighted-line-id="ok"] {
@@ -158,6 +158,6 @@
   }
 
   .prose [data-highlighted-line-id="error"] {
-    background: var(--crimson-13);
+    background: var(--red-13);
   }
 }
