@@ -24,10 +24,10 @@ export const colorHueAngles = {
 	grass: 135,
 	green: 150,
 	teal: 165,
-	mint: 180,
-	cyan: 195,
-	sky: 220,
-	blue: 245,
+	mint: 185,
+	cyan: 205,
+	sky: 230,
+	blue: 256,
 	indigo: 275,
 	purple: 300,
 	magenta: 325,
@@ -84,6 +84,9 @@ export function getChannels(hueShade: Color, {vibrance = 1, p3 = false} = {}) {
 		if (hue === 'pink') {
 			if (shade < 6) h += 5;
 		}
+		if (hue === 'indigo') {
+			if (shade < 6) h += (12 - shade * 2);
+		}
 		if (shade === 1) return 10;
 		if (shade === 2) {
 			if (hue === 'cyan') return 17.5;
@@ -99,11 +102,14 @@ export function getChannels(hueShade: Color, {vibrance = 1, p3 = false} = {}) {
 			if (hue === 'cyan') return 32.5;
 			return 37.5;
 		}
+		if (shade === 5) {
+			if (hue === 'cyan') return 40;
+		}
 		if (shade === 6) {
 			if (hue === 'sky') return 41;
 		}
-		if (shade >= 5 && shade <= 8) return 42.5;
-		return -5 * (shade - 17);
+		if (shade >= 5 && shade <= 9) return 42.5;
+		return -5 * (shade - 18);
 	})();
 
 	switch (hue) {
@@ -121,6 +127,7 @@ export function getChannels(hueShade: Color, {vibrance = 1, p3 = false} = {}) {
 		case 'pink':
 		case 'magenta':
 		case 'purple':
+		case 'blue':
 			c *= 1.1;
 			break;
 		case 'sky':
