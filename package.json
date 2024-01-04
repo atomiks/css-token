@@ -1,6 +1,6 @@
 {
   "name": "css-token",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Design tokens & utilities for CSS and JS",
   "type": "module",
   "main": "./dist/index.cjs",
