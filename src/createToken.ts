@@ -45,7 +45,7 @@ type SpringToken = `spring${`-${SpringScale}` | ''}`;
 interface TokenMap {
 	length: LengthToken;
 	shadow: ShadowToken;
-	color: Color;
+	color: Color | `p3_${Color}`;
 	rounded: RoundedToken;
 	font: FontFamilyToken;
 	'font-size': FontSizeToken;
