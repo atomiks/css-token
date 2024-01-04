@@ -288,12 +288,13 @@ function getText() {
 
 function getRounded() {
 	const entries: {
-		key: `rounded-${number}` | `rounded-${string}`;
+		key: 'rounded' | `rounded-${number}` | `rounded-${string}`;
 		value: string;
 	}[] = [];
 
 	const readableKeys = keys(ROUNDED_SCALE);
 
+	entries.push({key: 'rounded', value: rounded('md')})
 	for (const key of readableKeys) {
 		entries.push({key: `rounded-${key}`, value: rounded(key)});
 	}
