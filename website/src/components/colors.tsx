@@ -1,13 +1,13 @@
-import {css, length, token} from '../css';
+import {fontSize} from 'css-token';
 import {
 	type Color,
 	type Hue,
-	metalHueAngles,
-	grayHueAngles,
 	colorHueAngles,
+	grayHueAngles,
+	metalHueAngles,
 } from '../../../src/tokens/color';
+import {css, token} from '../css';
 import {Demo} from './demo';
-import {fontSize} from 'css-token';
 
 const colorHues = Object.keys(colorHueAngles) as Hue[];
 const metalHues = Object.keys(metalHueAngles) as Hue[];
@@ -31,7 +31,7 @@ function HueSet({hue}: {hue: Hue}) {
 					fontWeight: token('font-weight-semibold'),
 					placeSelf: 'center end',
 					marginRight: token('length-5'),
-					color: token(`${hue}-8`),
+					color: token(`${hue}-9`),
 					'&:dark': {
 						color: token(`${hue}-6`),
 					},
@@ -48,19 +48,20 @@ function HueSet({hue}: {hue: Hue}) {
 						placeItems: 'center',
 						width: '100%',
 						aspectRatio: '1',
-						color: i >= 6 ? token('gray-1') : token('gray-16'),
+						color: i >= 6 ? 'white' : 'black',
 						background: token(`${hue}-${i + 1}` as Color),
 						fontSize: token('font-size-xs'),
 						transition: 'transform var(--spring-stiff-2)',
 						cursor: 'default',
 						marginBottom: token('length-1'),
+						zIndex: token('layer-1'),
 						'&:p3': {
 							background: token(`p3_${hue}-${i + 1}` as Color),
 							// Make dynamic:
 							// background: color(`${hue}-${i + 1}` as Color, {p3: true}),
 						},
 						'&:hover': {
-							zIndex: token('layer-1'),
+							zIndex: token('layer-2'),
 							transform: 'scale(2)',
 						},
 					})}

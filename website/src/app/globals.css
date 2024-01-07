@@ -1,5 +1,5 @@
 @import "css-token/reset.css";
-@import "css-token/all.css";
+@import "./all.css";
 
 .prose code[data-theme*=" "] span {
   color: var(--shiki-light);
@@ -74,8 +74,8 @@
   position: relative;
   z-index: -1;
   border-radius: var(--rounded-md);
-  background: var(--indigo-1);
-  box-shadow: 0 0 0 calc(var(--length-scale-2) * 1em) var(--indigo-1);
+  background: var(--blue-1);
+  box-shadow: 0 0 0 calc(var(--length-scale-2) * 1em) var(--blue-1);
 }
 
 .prose [data-chars-id="error"] {

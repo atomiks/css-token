@@ -1,4 +1,4 @@
-import {css, shadow, length, token} from '../css';
+import {css, length, shadow, token} from '../css';
 import {Demo} from './demo';
 
 export const shadowPresets = ['none', 'dreamy', 'sharp', 'long'] as const;
@@ -48,32 +48,40 @@ export function ShadowElevation() {
 		<Demo>
 			<div
 				style={css({
-					display: 'flex',
-					flexWrap: 'wrap',
-					justifyContent: 'space-evenly',
-					gap: length(10, 'em'),
+					display: 'grid',
+					gridTemplateColumns: 'repeat(4, 1fr)',
+					placeItems: 'center',
+					rowGap: token('length-16'),
 				})}
 			>
 				{shadowElevations.map((elevation) => {
-					return (
-						<div
-							key={elevation}
-							style={css({
-								display: 'grid',
-								placeItems: 'center',
-								color: 'var(--gray-8)',
-								boxShadow: token(
-									elevation === 1 ? 'shadow' : `shadow-${elevation}`,
-								),
-								background: 'white',
-								width: token('length-18'),
-								height: token('length-18'),
-								borderRadius: token('rounded-lg'),
-							})}
-						>
-							{elevation}
-						</div>
-					);
+					return shadowPresets.map((preset) => {
+						return (
+							<div
+								key={elevation}
+								style={css({
+									display: 'grid',
+									placeItems: 'center',
+									color: 'var(--gray-8)',
+									boxShadow: token(
+										elevation === 1
+											? preset === 'none'
+												? 'shadow'
+												: `shadow-${preset}`
+											: preset === 'none'
+											  ? `shadow-${elevation}`
+											  : `shadow-${preset}-${elevation}`,
+									),
+									background: 'white',
+									width: token('length-18'),
+									height: token('length-18'),
+									borderRadius: token('rounded-lg'),
+								})}
+							>
+								{preset}-{elevation}
+							</div>
+						);
+					});
 				})}
 			</div>
 		</Demo>
@@ -101,7 +109,11 @@ export function ShadowColor() {
 								placeItems: 'center',
 								color: token(`${hue}-10`),
 								background: token(`${hue}-1`),
-								boxShadow: shadow({color: `${hue}-10`, preset: 'long'}),
+								boxShadow: shadow({
+									color: `${hue}-10`,
+									preset: 'long',
+									intensity: 1.5,
+								}),
 								width: token('length-18'),
 								height: token('length-18'),
 								borderRadius: token('rounded-lg'),
