@@ -1,5 +1,5 @@
 @import "css-token/reset.css";
-@import "./all.css";
+@import "css-token/all.css";
 
 .prose code[data-theme*=" "] span {
   color: var(--shiki-light);
