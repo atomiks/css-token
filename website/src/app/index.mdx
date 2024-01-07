@@ -659,7 +659,7 @@ layer("max");
 
 ## Text Gradient
 
-Lush gradients in `oklch` color space (by default) for text.
+Text gradient utility for text.
 
 ```js
 import { textGradient } from "css-token";
@@ -667,7 +667,7 @@ import { textGradient } from "css-token";
 const redToBlueTextGradient = textGradient({
   stops: [token("red-5"), token("blue-8")],
   // options:
-  colorSpace: "oklch", // e.g. "srgb"
+  colorSpace: "oklch", // e.g. "srgb" NOTE: no Firefox support
   direction: "90deg", // e.g. "to bottom"
 });
 ```
