@@ -1,5 +1,5 @@
-import fs from "node:fs";
-import path from "path";
+import fs from 'node:fs';
+import path from 'path';
 import {
 	type Color,
 	type Hue,
@@ -7,26 +7,23 @@ import {
 	getChannels,
 	hueAngles,
 	round,
-} from "../src/tokens/color";
-import { SYSTEM_FONTS, fontFamily } from "../src/tokens/fontFamily";
-import { FONT_SIZE_SCALE_READABLE, fontSize } from "../src/tokens/fontSize";
-import {
-	FONT_WEIGHT_SCALE_READABLE,
-	fontWeight,
-} from "../src/tokens/fontWeight";
-import { layer } from "../src/tokens/layer";
-import { LEADING_SCALE_READABLE, leading } from "../src/tokens/leading";
-import { length } from "../src/tokens/length";
-import { ROUNDED_SCALE, rounded } from "../src/tokens/rounded";
-import { type ShadowPreset, shadow } from "../src/tokens/shadow";
-import { NONELESS_SCALE, SPRING_SCALE, spring } from "../src/tokens/spring";
-import { TRACKING_SCALE_READABLE, tracking } from "../src/tokens/tracking";
-import { rgbToHex } from "../src/utils/rgbToHex";
+} from '../src/tokens/color';
+import {SYSTEM_FONTS, fontFamily} from '../src/tokens/fontFamily';
+import {FONT_SIZE_SCALE_READABLE, fontSize} from '../src/tokens/fontSize';
+import {FONT_WEIGHT_SCALE_READABLE, fontWeight} from '../src/tokens/fontWeight';
+import {layer} from '../src/tokens/layer';
+import {LEADING_SCALE_READABLE, leading} from '../src/tokens/leading';
+import {length} from '../src/tokens/length';
+import {ROUNDED_SCALE, rounded} from '../src/tokens/rounded';
+import {type ShadowPreset, shadow} from '../src/tokens/shadow';
+import {NONELESS_SCALE, SPRING_SCALE, spring} from '../src/tokens/spring';
+import {TRACKING_SCALE_READABLE, tracking} from '../src/tokens/tracking';
+import {rgbToHex} from '../src/utils/rgbToHex';
 
 function toCssVariables(data: Array<Record<string, unknown>>) {
 	return `:root {\n${data
-		.map(({ key, value }) => `  --${key}: ${value};`)
-		.join("\n")}\n}`;
+		.map(({key, value}) => `  --${key}: ${value};`)
+		.join('\n')}\n}`;
 }
 
 function keys<T extends Record<string, unknown>>(object: T) {
@@ -41,18 +38,18 @@ function getColors(
 	}: {
 		only?: Array<Hue | Color>;
 		p3?: boolean;
-	} = { only: [], p3: false },
+	} = {only: [], p3: false},
 ) {
-	const entries: { key: Color | `p3_${Color}`; value: string }[] = [];
+	const entries: {key: Color | `p3_${Color}`; value: string}[] = [];
 
 	for (const colorKey of colors) {
 		if (only.length && !only.includes(colorKey)) continue;
-		if (colorKey.includes("-")) {
+		if (colorKey.includes('-')) {
 			const key = colorKey as Color;
 			entries.push({
 				key: p3 ? `p3_${key}` : key,
 				value: p3
-					? color(key, { p3 })
+					? color(key, {p3})
 					: rgbToHex(
 							getChannels(key).map((n) => round(n)) as [number, number, number],
 					  ),
@@ -63,7 +60,7 @@ function getColors(
 				entries.push({
 					key: p3 ? `p3_${key}` : key,
 					value: p3
-						? color(key, { p3 })
+						? color(key, {p3})
 						: rgbToHex(
 								getChannels(key).map((n) => round(n)) as [
 									number,
@@ -82,8 +79,8 @@ function getColors(
 function getShadows(shadows: Array<ShadowPreset>) {
 	const entries: {
 		key:
-			| `shadow${`-${1 | 2 | 3 | 4}` | ""}`
-			| `shadow-${ShadowPreset}${`-${1 | 2 | 3 | 4}` | ""}`;
+			| `shadow${`-${1 | 2 | 3 | 4}` | ''}`
+			| `shadow-${ShadowPreset}${`-${1 | 2 | 3 | 4}` | ''}`;
 		value: string;
 	}[] = [];
 
@@ -91,10 +88,10 @@ function getShadows(shadows: Array<ShadowPreset>) {
 		for (let elevation = 1; elevation < 5; elevation++) {
 			const e = elevation as 1 | 2 | 3 | 4;
 			const key =
-				preset === "none"
-					? (`shadow${e === 1 ? "" : (`-${e}` as const)}` as const)
-					: (`shadow-${preset}${e === 1 ? "" : (`-${e}` as const)}` as const);
-			entries.push({ key, value: shadow({ preset, elevation }) });
+				preset === 'none'
+					? (`shadow${e === 1 ? '' : (`-${e}` as const)}` as const)
+					: (`shadow-${preset}${e === 1 ? '' : (`-${e}` as const)}` as const);
+			entries.push({key, value: shadow({preset, elevation})});
 		}
 	}
 
@@ -113,14 +110,14 @@ function getLengths() {
 
 	for (let i = 1; i <= 32; i++) {
 		if (i < 5) {
-			entries.push({ key: `length-${i - 1}_5`, value: length((i - 0.5) as 1) });
+			entries.push({key: `length-${i - 1}_5`, value: length((i - 0.5) as 1)});
 			entries.push({
 				key: `length-scale-${i - 1}_5`,
-				value: length((i - 0.5) as 0.5, ""),
+				value: length((i - 0.5) as 0.5, ''),
 			});
 		}
-		entries.push({ key: `length-${i}`, value: length(i as 1) });
-		entries.push({ key: `length-scale-${i}`, value: length(i as 1, "") });
+		entries.push({key: `length-${i}`, value: length(i as 1)});
+		entries.push({key: `length-scale-${i}`, value: length(i as 1, '')});
 	}
 
 	return entries;
@@ -135,17 +132,17 @@ function getFontSizeScale() {
 	const readableKeys = keys(FONT_SIZE_SCALE_READABLE);
 
 	for (let i = 1; i <= 16; i++) {
-		entries.push({ key: `font-size-scale-${i}`, value: fontSize(i as 1, "") });
+		entries.push({key: `font-size-scale-${i}`, value: fontSize(i as 1, '')});
 		if (i < 5) {
 			entries.push({
 				key: `font-size-scale-${i}_5`,
-				value: fontSize((i - 0.5) as 0.5, ""),
+				value: fontSize((i - 0.5) as 0.5, ''),
 			});
 		}
 	}
 
 	for (const key of readableKeys) {
-		entries.push({ key: `font-size-scale-${key}`, value: fontSize(key, "") });
+		entries.push({key: `font-size-scale-${key}`, value: fontSize(key, '')});
 	}
 
 	return entries;
@@ -158,11 +155,11 @@ function getLengthScale() {
 	}[] = [];
 
 	for (let i = 1; i <= 32; i++) {
-		entries.push({ key: `length-scale-${i}`, value: length(i as 1, "") });
+		entries.push({key: `length-scale-${i}`, value: length(i as 1, '')});
 		if (i < 5) {
 			entries.push({
 				key: `length-scale-${i}_5`,
-				value: length((i - 0.5) as 0.5, ""),
+				value: length((i - 0.5) as 0.5, ''),
 			});
 		}
 	}
@@ -183,10 +180,10 @@ function getText() {
 		const readableKeys = keys(FONT_SIZE_SCALE_READABLE);
 
 		for (let i = 1; i <= 16; i++) {
-			entries.push({ key: `font-size-${i}`, value: fontSize(i as 1) });
+			entries.push({key: `font-size-${i}`, value: fontSize(i as 1)});
 			entries.push({
 				key: `font-size-scale-${i}`,
-				value: fontSize(i as 1, ""),
+				value: fontSize(i as 1, ''),
 			});
 			if (i < 5) {
 				entries.push({
@@ -195,14 +192,14 @@ function getText() {
 				});
 				entries.push({
 					key: `font-size-scale-${i}_5`,
-					value: fontSize((i + 0.5) as 1.5, ""),
+					value: fontSize((i + 0.5) as 1.5, ''),
 				});
 			}
 		}
 
 		for (const key of readableKeys) {
-			entries.push({ key: `font-size-${key}`, value: fontSize(key) });
-			entries.push({ key: `font-size-scale-${key}`, value: fontSize(key, "") });
+			entries.push({key: `font-size-${key}`, value: fontSize(key)});
+			entries.push({key: `font-size-scale-${key}`, value: fontSize(key, '')});
 		}
 
 		return entries;
@@ -217,11 +214,11 @@ function getText() {
 		const readableKeys = keys(LEADING_SCALE_READABLE);
 
 		for (let i = 1; i <= 9; i++) {
-			entries.push({ key: `leading-${i}`, value: leading(i as 1, "em") });
+			entries.push({key: `leading-${i}`, value: leading(i as 1, 'em')});
 		}
 
 		for (const key of readableKeys) {
-			entries.push({ key: `leading-${key}`, value: leading(key, "em") });
+			entries.push({key: `leading-${key}`, value: leading(key, 'em')});
 		}
 
 		return entries;
@@ -236,11 +233,11 @@ function getText() {
 		const readableKeys = keys(TRACKING_SCALE_READABLE);
 
 		for (let i = 1; i <= 9; i++) {
-			entries.push({ key: `tracking-${i}`, value: tracking(i as 1, "em") });
+			entries.push({key: `tracking-${i}`, value: tracking(i as 1, 'em')});
 		}
 
 		for (const key of readableKeys) {
-			entries.push({ key: `tracking-${key}`, value: tracking(key, "em") });
+			entries.push({key: `tracking-${key}`, value: tracking(key, 'em')});
 		}
 
 		return entries;
@@ -255,11 +252,11 @@ function getText() {
 		const readableKeys = keys(FONT_WEIGHT_SCALE_READABLE);
 
 		for (let i = 1; i <= 9; i++) {
-			entries.push({ key: `font-weight-${i}`, value: fontWeight(i as 1) });
+			entries.push({key: `font-weight-${i}`, value: fontWeight(i as 1)});
 		}
 
 		for (const key of readableKeys) {
-			entries.push({ key: `font-weight-${key}`, value: fontWeight(key) });
+			entries.push({key: `font-weight-${key}`, value: fontWeight(key)});
 		}
 
 		return entries;
@@ -274,7 +271,7 @@ function getText() {
 		const readableKeys = keys(SYSTEM_FONTS);
 
 		for (const key of readableKeys) {
-			entries.push({ key: `font-${key}`, value: fontFamily(key) });
+			entries.push({key: `font-${key}`, value: fontFamily(key)});
 		}
 
 		return entries;
@@ -291,15 +288,15 @@ function getText() {
 
 function getRounded() {
 	const entries: {
-		key: "rounded" | `rounded-${number}` | `rounded-${string}`;
+		key: 'rounded' | `rounded-${number}` | `rounded-${string}`;
 		value: string;
 	}[] = [];
 
 	const readableKeys = keys(ROUNDED_SCALE);
 
-	entries.push({ key: "rounded", value: rounded("md") });
+	entries.push({key: 'rounded', value: rounded('md')});
 	for (const key of readableKeys) {
-		entries.push({ key: `rounded-${key}`, value: rounded(key) });
+		entries.push({key: `rounded-${key}`, value: rounded(key)});
 	}
 
 	return entries;
@@ -307,15 +304,15 @@ function getRounded() {
 
 function getSprings() {
 	const entries: {
-		key: "spring" | `spring-${(typeof NONELESS_SCALE)[number]}`;
+		key: 'spring' | `spring-${(typeof NONELESS_SCALE)[number]}`;
 		value: string;
 	}[] = [];
 
 	for (let i = 0; i < 5; i++) {
 		const preset = SPRING_SCALE[i];
 		entries.push({
-			key: preset === "none" ? "spring" : `spring-${preset}`,
-			value: spring({ preset }),
+			key: preset === 'none' ? 'spring' : `spring-${preset}`,
+			value: spring({preset}),
 		});
 	}
 
@@ -329,55 +326,55 @@ function getLayers() {
 	}[] = [];
 
 	for (let i = 1; i <= 6; i++) {
-		const name = i === 6 ? "max" : (i as 1);
-		entries.push({ key: `layer-${name}`, value: layer(name) });
+		const name = i === 6 ? 'max' : (i as 1);
+		entries.push({key: `layer-${name}`, value: layer(name)});
 	}
 
 	return entries;
 }
 
 function write(name: string, value: string) {
-	fs.writeFileSync(path.join(__dirname, `../${name}.css`), value, "utf-8");
+	fs.writeFileSync(path.join(__dirname, `../${name}.css`), value, 'utf-8');
 }
 
 const hues = keys(hueAngles);
 
 const tokens = [
-	...hues.map((hue) => ({ key: hue, value: getColors(hues, { only: [hue] }) })),
+	...hues.map((hue) => ({key: hue, value: getColors(hues, {only: [hue]})})),
 	...hues.map((hue) => ({
 		key: `${hue}-p3`,
-		value: getColors(hues, { only: [hue], p3: true }),
+		value: getColors(hues, {only: [hue], p3: true}),
 	})),
-	{ key: "color", value: getColors(hues) },
-	{ key: "color-p3", value: getColors(hues, { p3: true }) },
-	{ key: "shadow", value: getShadows(["none", "dreamy", "long", "sharp"]) },
-	{ key: "length", value: getLengths() },
-	{ key: "text", value: getText() },
-	{ key: "rounded", value: getRounded() },
-	{ key: "spring", value: getSprings() },
-	{ key: "font-size-scale", value: getFontSizeScale() },
-	{ key: "layer", value: getLayers() },
+	{key: 'color', value: getColors(hues)},
+	{key: 'color-p3', value: getColors(hues, {p3: true})},
+	{key: 'shadow', value: getShadows(['none', 'dreamy', 'long', 'sharp'])},
+	{key: 'length', value: getLengths()},
+	{key: 'text', value: getText()},
+	{key: 'rounded', value: getRounded()},
+	{key: 'spring', value: getSprings()},
+	{key: 'font-size-scale', value: getFontSizeScale()},
+	{key: 'layer', value: getLayers()},
 ];
 
-for (const { key, value } of tokens) {
+for (const {key, value} of tokens) {
 	write(key, toCssVariables(value));
 }
 
 write(
-	"all",
+	'all',
 	[
 		toCssVariables(
 			Object.values(
-				tokens.filter((n) => n.key !== "color" && n.key !== "color-p3"),
-			).reduce((acc: Array<Record<string, unknown>>, { value }) => {
+				tokens.filter((n) => n.key !== 'color' && n.key !== 'color-p3'),
+			).reduce((acc: Array<Record<string, unknown>>, {value}) => {
 				return acc.concat(value);
 			}, []),
 		),
-		fs.readFileSync(`${__dirname}/../src/css/prose.css`, "utf-8"),
-	].join("\n"),
+		fs.readFileSync(`${__dirname}/../src/css/prose.css`, 'utf-8'),
+	].join('\n'),
 );
 
-const copyFiles = ["reset", "prose"];
+const copyFiles = ['reset', 'prose'];
 
 for (const file of copyFiles) {
 	fs.copyFileSync(
