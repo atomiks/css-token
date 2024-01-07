@@ -19,13 +19,14 @@ export const grayHueAngles = {
 export const colorHueAngles = {
 	red: 25,
 	orange: 50,
-	yellow: 85,
-	lime: 120,
-	grass: 135,
-	green: 150,
-	teal: 165,
-	mint: 185,
-	cyan: 205,
+	amber: 83,
+	yellow: 95,
+	lime: 125,
+	grass: 140,
+	green: 155,
+	teal: 170,
+	mint: 188,
+	cyan: 210,
 	sky: 230,
 	blue: 256,
 	indigo: 275,
@@ -77,15 +78,19 @@ export function getChannels(hueShade: Color, {vibrance = 1, p3 = false} = {}) {
 			if (shade === 5) h += 5;
 		}
 		if (hue === 'sky') {
-			if (shade === 1) h += 20;
-			else if (shade < 5) h += 15;
-			else if (shade === 5) h += 5;
+			h += 23 - shade * 1.75;
 		}
 		if (hue === 'pink') {
 			if (shade < 6) h += 5;
 		}
 		if (hue === 'indigo') {
-			if (shade < 6) h += (12 - shade * 2);
+			if (shade < 6) h += 12 - shade * 2;
+		}
+		if (hue === 'yellow') {
+			if (shade < 5) h += 6 - shade;
+		}
+		if (hue === 'amber') {
+			if (shade < 5) h -= 25 - 5 * shade;
 		}
 		if (shade === 1) return 10;
 		if (shade === 2) {
@@ -108,29 +113,33 @@ export function getChannels(hueShade: Color, {vibrance = 1, p3 = false} = {}) {
 		if (shade === 6) {
 			if (hue === 'sky') return 41;
 		}
-		if (shade >= 5 && shade <= 9) return 42.5;
-		return -5 * (shade - 18);
+		if (shade >= 5 && shade <= 10) return 42.5;
+		return -5 * (shade - 19);
 	})();
 
 	switch (hue) {
 		case 'red':
-		case 'orange':
-		case 'yellow':
+		case 'amber':
 		case 'indigo':
 		case 'crimson':
 		case 'lime':
 			c *= 1.2;
 			break;
-		case 'grass':
 		case 'green':
+		case 'grass':
 		case 'teal':
+		case 'yellow':
+			c *= 1.15;
+			break;
 		case 'pink':
 		case 'magenta':
 		case 'purple':
 		case 'blue':
+		case 'orange':
 			c *= 1.1;
 			break;
-		case 'sky':
+		case 'cyan':
+		case 'mint':
 			c *= 0.925;
 			break;
 	}
