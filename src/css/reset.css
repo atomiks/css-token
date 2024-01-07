@@ -71,8 +71,8 @@
 }
 
 :where(:focus-visible) {
-  outline: 0.175rem solid royalblue;
-  outline-offset: 0.25rem;
+  outline: 0.125rem solid var(--blue-9, royalblue);
+  outline-offset: 0.125rem;
 }
 
 :where(:focus-visible, :target) {
