@@ -1,48 +1,17 @@
 name: Release
 
-permissions:
-  contents: write
-
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [main]
 
 defaults:
   run:
     shell: bash
 
-env:
-  NODE_OPTIONS: '--no-warnings'
-  NEXT_TELEMETRY_DISABLED: '1'
-  ACTIONS_RUNNER_DEBUG: true
-
 jobs:
-  changelog:
-    name: 'Generate Changelog'
-    runs-on: ['ubuntu-latest']
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: '🐰 Setup Bun'
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: 'latest'
-
-      - name: 'Generate Changelog'
-        run: bunx changelogithub
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   publish-npm:
+    permissions: write-all
     name: 'NPM Registry'
-    needs: [changelog]
-    permissions:
-      id-token: write
-      contents: write
     runs-on: ['ubuntu-latest']
     steps:
       - name: 'Checkout'
