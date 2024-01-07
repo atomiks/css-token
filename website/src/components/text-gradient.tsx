@@ -3,7 +3,6 @@ import {Demo} from './demo';
 
 const gradient = textGradient({
 	stops: [token('red-5'), token('blue-8')],
-	colorSpace: 'oklch',
 });
 
 export function TextGradient() {
