@@ -1,5 +1,12 @@
 # css-token
 
+## 0.0.7
+
+### Patch Changes
+
+- 6b08c61: fix(reset): improve outline styles
+- 1a5ef20: fix(build): 0.5 length scale increments
+
 ## 0.0.6
 
 ### Patch Changes
