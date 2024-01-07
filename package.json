@@ -1,6 +1,6 @@
 {
 	"name": "css-token",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "Design tokens & utilities for CSS and JS",
 	"type": "module",
 	"main": "./dist/index.cjs",
@@ -21,7 +21,10 @@
 			}
 		}
 	},
-	"files": ["dist/", "*.css"],
+	"files": [
+		"dist/",
+		"*.css"
+	],
 	"scripts": {
 		"build": "tsup src/index.ts && bun scripts/build.ts",
 		"clean": "rm -rf *.css",
