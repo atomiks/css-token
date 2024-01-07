@@ -1,16 +1,16 @@
 interface TextGradientOptions {
 	stops: Array<string>;
 	direction?: number;
-	colorSpace?: string;
+	colorSpace?: string | null;
 }
 
 export function textGradient(options: TextGradientOptions) {
-	const {stops, direction = '90deg', colorSpace = 'oklch'} = options;
+	const {stops, direction = '90deg', colorSpace = null} = options;
 	return {
 		color: 'transparent',
-		backgroundImage: `linear-gradient(in ${colorSpace} ${direction},${stops.join(
-			',',
-		)})`,
+		backgroundImage: colorSpace
+			? `linear-gradient(in ${colorSpace} ${direction},${stops.join(',')})`
+			: `linear-gradient(${direction},${stops.join(',')})`,
 		backgroundClip: 'text',
 	};
 }
