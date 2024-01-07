@@ -1,44 +1,43 @@
 {
-  "name": "css-token",
-  "version": "0.0.5",
-  "description": "Design tokens & utilities for CSS and JS",
-  "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.cts",
-  "sideEffects": false,
-  "exports": {
-    "./package.json": "./package.json",
-    "./*.css": "./*.css",
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    }
-  },
-  "files": [
-    "dist/",
-    "*.css"
-  ],
-  "scripts": {
-    "build": "tsup src/index.ts && bun scripts/build.ts",
-    "clean": "rm -rf *.css",
-    "typecheck": "tsc",
-    "lint": "bunx @biomejs/biome lint src scripts website/src && publint",
-    "format": "bunx @biomejs/biome format src scripts website/src --write"
-  },
-  "author": "atomiks",
-  "license": "MIT",
-  "devDependencies": {
-    "@biomejs/biome": "1.4.1",
-    "@types/bun": "^1.0.0",
-    "publint": "^0.2.7",
-    "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
-  }
+	"name": "css-token",
+	"version": "0.0.5",
+	"description": "Design tokens & utilities for CSS and JS",
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.cts",
+	"sideEffects": false,
+	"exports": {
+		"./package.json": "./package.json",
+		"./*.css": "./*.css",
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		}
+	},
+	"files": ["dist/", "*.css"],
+	"scripts": {
+		"build": "tsup src/index.ts && bun scripts/build.ts",
+		"clean": "rm -rf *.css",
+		"typecheck": "tsc",
+		"lint": "bunx @biomejs/biome lint .github src scripts website/src && publint",
+		"format": "bunx @biomejs/biome format .github src scripts website/src --write",
+		"release": "bun run build && changeset publish"
+	},
+	"author": "atomiks",
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "1.4.1",
+		"@changesets/cli": "^2.27.1",
+		"@types/bun": "^1.0.0",
+		"publint": "^0.2.7",
+		"tsup": "^8.0.1",
+		"typescript": "^5.3.3"
+	}
 }
