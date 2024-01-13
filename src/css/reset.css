@@ -27,7 +27,8 @@
 }
 
 :where(button) {
-  all: unset;
+  background: none;
+  border: none;
 }
 
 :where(input, button, textarea, select) {
